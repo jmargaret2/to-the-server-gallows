@@ -22,7 +22,7 @@ while True:
 		letterGuess = connectionSocket.recv(1024)
 		letterIndex = currentWord.find(letterGuess)
 
-		if letterGuess != -1:
+		if letterIndex != -1:
 			print("LETTER IS IN WORD")
 			# SHOW LETTER ON SCREEN HERE
 		if letterIndex == -1:

@@ -1,6 +1,6 @@
 from socket import *
 #
-serverName = 'xxx.xxx.xxx.xxx'  # put IP address
+serverName = '140.103.93.138'  # put IP address
 serverPort = 12000
 #
 
