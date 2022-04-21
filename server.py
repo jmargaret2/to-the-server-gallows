@@ -3,7 +3,7 @@ import random
 
 serverSocket = socket(AF_INET, SOCK_STREAM)
 
-serverPort = 12000
+serverPort = 13456
 serverSocket.bind(('', serverPort))
 serverSocket.listen(1)
 print('The server is ready to receive')
@@ -20,15 +20,17 @@ while True:
 
 	try:
 		letterGuess = connectionSocket.recv(1024)
-		letterIndex = currentWord.find(letterGuess)
+		print("The guessed letter is %s", letterGuess)
 
+		letterIndex = currentWord.find(str(letterGuess))
+		print("got here")
 		if letterIndex != -1:
 			print("LETTER IS IN WORD")
 			# SHOW LETTER ON SCREEN HERE
 		if letterIndex == -1:
-				print("LETTER IS NOT IN WORD")
-				numberOfGuesses = numberOfGuesses - 1
-				connectionSocket.close()
+			print("LETTER IS NOT IN WORD")
+			numberOfGuesses = numberOfGuesses - 1
+			connectionSocket.close()
 	except IOError:
 		# Close client socket
 		connectionSocket.close()
