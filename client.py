@@ -1,10 +1,11 @@
 from socket import *
 #
-serverName = 'xxx.xxx.xxx.xxx'  # put IP address
-serverPort = 12000
+serverName = '140.103.93.138'  # put IP address
+serverPort = 13456
 #
 
-clientSocket = socket(AF_INET, SOCK_DGRAM)
+clientSocket = socket(AF_INET, SOCK_STREAM)
+clientSocket.connect((serverName, serverPort))
 
 # hangman game starts here
 import sys
@@ -22,6 +23,7 @@ try:
 			lettersGuessed += currentGuess
 			bytesGuess = bytes(currentGuess, "utf-8")
 			clientSocket.sendto(bytesGuess, (serverName, serverPort))
+			print("Sent message")
 			modifiedMsg, server = clientSocket.recvfrom(2048)
 			print(modifiedMsg)
 			clientSocket.close()
