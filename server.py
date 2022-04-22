@@ -19,11 +19,11 @@ while True:
 	connectionSocket, addr = serverSocket.accept()
 
 	try:
-		letterGuess = connectionSocket.recv(1024)
-		print("The guessed letter is %s", letterGuess)
+		letterGuess = connectionSocket.recv(1024).decode("utf-8")
+		print("The guessed letter is " + str(letterGuess))
 
 		letterIndex = currentWord.find(str(letterGuess))
-		print("got here")
+
 		if letterIndex != -1:
 			print("LETTER IS IN WORD")
 			# SHOW LETTER ON SCREEN HERE
