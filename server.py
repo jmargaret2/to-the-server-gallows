@@ -13,6 +13,9 @@ possibleWords = ["cat", "dog", "fish"]
 currentWord = random.choice(possibleWords)
 print(currentWord)
 guessInProgress = ""
+missedLetters = []
+correctLetters = []
+wonGame = False
 
 while True:
 	# Establish the connection
@@ -20,7 +23,7 @@ while True:
 	connectionSocket, addr = serverSocket.accept()
 
 	try:
-		if numberOfGuesses > 0:
+		if numberOfGuesses > 0 and wonGame == False:
 			letterGuess = connectionSocket.recv(1024).decode("utf-8")
 			print("The guessed letter is " + str(letterGuess))
 
@@ -28,17 +31,28 @@ while True:
 
 			if letterIndex != -1:
 				print("LETTER IS IN WORD")
-				# SHOW LETTER ON SCREEN HERE
-			guessInProgress = guessInProgress + letterGuess
-			if guessInProgress == currentWord:
-				print("YOU WIN")
-
+				correctLetters.append(letterGuess)
 			if letterIndex == -1:
 				print("LETTER IS NOT IN WORD")
+				missedLetters.append(letterGuess)
 				numberOfGuesses = numberOfGuesses - 1
+
+			foundAllLetters = True
+			for letter in range(len(currentWord)):
+				if currentWord[letter] not in correctLetters:
+					foundAllLetters = False
+					break
+			if foundAllLetters:
+				wonGame = True
+
 		elif numberOfGuesses <= 0:
 			print("YOU LOSE GAME")
 			connectionSocket.close()
+
+		elif wonGame:
+			print("YOU WIN GAME")
+			connectionSocket.close()
+
 	except IOError:
 		# Close client socket
 		connectionSocket.close()
