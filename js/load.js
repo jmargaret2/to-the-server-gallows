@@ -1,27 +1,15 @@
 document.onload = function loadButtons() {
-    let button, holder, letter, tempId;
-    holder = document.getElementById("buttons");
+    let html = '';
+    let letter;
 
-    for(let i = 54; i <= 90; i++){
-        if(i===65 || i === 75 || i === 84) {
-            tempId = document.createElement("letterButton");
-        }
+    for(let i = 65; i <= 90; i++){
         letter = String.fromCharCode(i);
-        button = document.createElement("button");
-        button.innerHTML = letter;
-        button.setAttribute("data-letter", letter);
-        button.onclick = function createLetters(){
-            setLetter(this.getAttribute("data-letter"));
-        };
-        tempId.appendChild(button)
-
-        if (i===74 || i===83 || i===90){
-            holder.appendChild(tempId);
-        }
+        html += '<button onclick="setLetter(\'' + letter + '\');">' + letter + '</button>';
     }
+
+    document.getElementById("buttons").innerHTML = html;
 };
 
-function setLetter(letter){
-    let div = document.getElementById("buttonName");
-    div.innerHTML = div.innerHTML + letter;
+var setLetter = function(letter){
+    document.getElementById("buttonName").innerHTML = letter;
 }

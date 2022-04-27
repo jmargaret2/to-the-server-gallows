@@ -1,17 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <link rel="stylesheet" href="interface.css">
+    <script type="javascript" src="js/load.js" defer></script>
+    <title>Hangman</title>
 </head>
   <body>
     <div class="interface">
        <h1>Hangman</h1>
     </div>
-    <!-- <script type="text/javascript" src="______"></script> -->
+     <script type="text/javascript" src="js/hangman.js"></script>
     <div class="wrap">
         <div id="buttons"> <!--each letter in the alphabet gets a button-->
         </div>
-        <div id="HangManPic"></div>  <!--Picture that changes according to numberOfGuesses-->
+        <div id="buttonName"></div>
+        <div id="HangManPic">
+            <img id="pics" src="pics/hangmandesigns.jpg" alt="The beginning of Hangman" style="width: 70%">
+            <span onclick="changeImage('pics/hangmandesigns.jpg')"></span>
+        </div>  <!--Picture that changes according to numberOfGuesses-->
         <div id="guessLetter"> <!--letters that are correct are displaced-->
         </div>
         <!-- <div class="container">
