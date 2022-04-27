@@ -38,20 +38,19 @@ while True:
 				numberOfGuesses = numberOfGuesses - 1
 
 			foundAllLetters = True
+			print("The correct letters thus far are ", correctLetters)
 			for letter in range(len(currentWord)):
 				if currentWord[letter] not in correctLetters:
 					foundAllLetters = False
 					break
 			if foundAllLetters:
-				wonGame = True
+				print("YOU WIN GAME")
+				connectionSocket.close()
 
 		elif numberOfGuesses <= 0:
 			print("YOU LOSE GAME")
 			connectionSocket.close()
 
-		elif wonGame:
-			print("YOU WIN GAME")
-			connectionSocket.close()
 
 	except IOError:
 		# Close client socket

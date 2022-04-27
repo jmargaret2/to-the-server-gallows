@@ -17,22 +17,23 @@ playAgain = False
 try:
 	while numGuesses != 0:
 		try:
-			numGuesses -= 1
-			currentGuess = str(input("Enter a letter to guess: "))
+			while True:
+				numGuesses -= 1
+				currentGuess = str(input("Enter a letter to guess: "))
 
-			# Client-side guess validation
-			if not currentGuess.isalpha():
-				print("Enter only a letter")
-				continue
-			if currentGuess in lettersGuessed:
-				print("You already guessed this letter. Try again.")
-				continue
+				# Client-side guess validation
+				if not currentGuess.isalpha():
+					print("Enter only a letter")
+					continue
+				if currentGuess in lettersGuessed:
+					print("You already guessed this letter. Try again.")
+					continue
 
-			lettersGuessed += currentGuess
-			bytesGuess = bytes(currentGuess, "utf-8")
-			clientSocket.sendto(bytesGuess, (serverName, serverPort))
-			print("Sent message")
-			modifiedMsg, server = clientSocket.recvfrom(2048)
+				lettersGuessed += currentGuess
+				bytesGuess = bytes(currentGuess, "utf-8")
+				clientSocket.sendto(bytesGuess, (serverName, serverPort))
+				print("Sent message")
+				modifiedMsg, server = clientSocket.recvfrom(2048)
 		# guess is not the right argument type or is more than 1 letter
 		except ValueError or len(currentGuess) > 1:
 			print("Enter only one letter.")
