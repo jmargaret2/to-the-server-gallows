@@ -18,17 +18,15 @@ document.getElementById("startGame").addEventListener("click", startGame);
 
 function startGame(){
     document.getElementById("startGame").innerHTML = "Game Started";
+
+    // Choose random word from list of possibilities
     currentWord = possibleWords[Math.floor(Math.random() * possibleWords.length)];
+
     allLetters.length = currentWord.length;
     for (i = 0; i < allLetters.length; i++){
         allLetters.push('_');
     }
     document.getElementById("lettersLeft").innerHTML = toString(allLetters);
-}
-
-// Choose a random word from the list of possible words
-function randomWord(possibleWords){
-    currentWord = possibleWords[Math.floor(Math.random() * possibleWords.length)];
 }
 
 // After each incorrect guess, the image in the game will change
@@ -61,7 +59,6 @@ function changeImage(){
 }
 
 function findLetterInWord(){
-    randomWord();
     guessInProgress = document.getElementById("guessedLetter").innerHTML;
     let letterIndex = currentWord.search(guessInProgress);
 
