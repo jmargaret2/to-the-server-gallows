@@ -1,6 +1,6 @@
 let numberOfGuesses = 6; // number of incorrect guesses left
-let wonGame = False;
-let possibleWords = ["cat, dog, fish"];
+let possibleWords;
+possibleWords = ["cat, dog, fish"];
 let guessInProgress = "";
 let missedLetters = [];
 let correctLetters = [];
@@ -21,12 +21,17 @@ function startGame(){
 
     // Choose random word from list of possibilities
     currentWord = possibleWords[Math.floor(Math.random() * possibleWords.length)];
+    currentWord = "andrews hall";
 
-    allLetters.length = currentWord.length;
-    for (i = 0; i < allLetters.length; i++){
-        allLetters.push('_');
+    for (i = 0; i < currentWord.length; i++){
+        if(currentWord[i] === " "){
+            allLetters[i] = "/";
+        }
+        else {
+            allLetters[i] = "_";
+        }
     }
-    document.getElementById("lettersLeft").innerHTML = toString(allLetters);
+    document.getElementById("lettersLeft").innerHTML = allLetters.join(" ");
 }
 
 // After each incorrect guess, the image in the game will change
@@ -80,10 +85,10 @@ function updateLettersLeft(){
     let arrWord = currentWord.split();
     for(i = 0; i < currentWord.length; i++){
         if(arrWord.indexOf(guessInProgress)){
-            allLetters[i].push(guessInProgress);
+            allLetters[i] = guessInProgress;
         }
         else{
-            allLetters[i].push('_');
+            allLetters[i] = "_";
         }
     }
 }
