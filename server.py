@@ -4,7 +4,7 @@ import random
 serverName = 'localhost'
 serverSocket = socket(AF_INET, SOCK_STREAM)
 serverPort = 13456
-serverSocket.bind(('', serverPort))
+serverSocket.bind((serverName, serverPort))
 serverSocket.listen(1)
 print('The server is ready to receive')
 
@@ -25,7 +25,6 @@ connectionSocket, addr = serverSocket.accept()
 while True:
 	try:
 		if numberOfGuesses > 0 and wonGame is False:
-			messageFromClient = connectionSocket.recv(1024).decode("utf-8")
 			letterGuess = connectionSocket.recv(1024).decode("utf-8")
 			print("The guessed letter is " + str(letterGuess))
 
