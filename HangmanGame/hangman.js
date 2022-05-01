@@ -17,27 +17,11 @@ function randomWord(possibleWords){
     theWord.currentWord = possibleWords[Math.floor(Math.random() * possibleWords.length)];
 }
 
-//alphabet buttons
-function alphabetButton(){
-
-    // allButtons = document.getElementById("buttons");
-    // letters = document.createElement("ul");
-    //
-    // for (var i = 0; i <= alphabet.length; i++){
-    //     letters.id = 'alphabet';
-    //     letterButton = document.createElement("char");
-    //     letterButton.id = 'letters';
-    //     letterButton.innerHTML = alphabet[i];
-    //     allButtons.body.appendChild(letters);
-    //     letters.body.appendChild(letterButton);
-    // }
-}
 
 //one letter from alphabet function taken a compare to randomWord() if there is a match it is correct if not
 //one numberOFGuess goes down and picture changes
 function holdLetter(holdChar){
     document.getElementById("forPractice").innerHTML = theWord.currentWord;
-    changeImage(numberOfGuesses);
 
     if (theWord.currentWord.indexOf(holdChar) != -1){
         correctLetters.push(holdChar);
@@ -54,6 +38,7 @@ function holdLetter(holdChar){
         }
     }
     document.getElementById("Lives").innerHTML = 'Lives ' + numberOfGuesses;
+    changeImage(numberOfGuesses);
 
 }
 //picture from imageSources change according to the numberOfGuesses
