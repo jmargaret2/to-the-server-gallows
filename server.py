@@ -1,8 +1,8 @@
 from socket import *
 import random
 
+serverName = 'localhost'
 serverSocket = socket(AF_INET, SOCK_STREAM)
-
 serverPort = 13456
 serverSocket.bind(('', serverPort))
 serverSocket.listen(1)
@@ -16,14 +16,16 @@ guessInProgress = ""
 missedLetters = []
 correctLetters = []
 wonGame = False
+numberOfRightWords = 0
+
+# Establish the connection
+print('Ready to serve...')
+connectionSocket, addr = serverSocket.accept()
 
 while True:
-	# Establish the connection
-	print('Ready to serve...')
-	connectionSocket, addr = serverSocket.accept()
-
 	try:
-		if numberOfGuesses > 0 and wonGame == False:
+		if numberOfGuesses > 0 and wonGame is False:
+			messageFromClient = connectionSocket.recv(1024).decode("utf-8")
 			letterGuess = connectionSocket.recv(1024).decode("utf-8")
 			print("The guessed letter is " + str(letterGuess))
 
@@ -32,26 +34,35 @@ while True:
 			if letterIndex != -1:
 				print("LETTER IS IN WORD")
 				correctLetters.append(letterGuess)
+				numberOfRightWords += 1
 			if letterIndex == -1:
 				print("LETTER IS NOT IN WORD")
 				missedLetters.append(letterGuess)
 				numberOfGuesses = numberOfGuesses - 1
+				connectionSocket.send(bytes(str(numberOfGuesses), "utf-8"))
 
-			foundAllLetters = True
 			print("The correct letters thus far are ", correctLetters)
 			for letter in range(len(currentWord)):
 				if currentWord[letter] not in correctLetters:
-					foundAllLetters = False
+					print("missing letters from word")
 					break
-			if foundAllLetters:
-				print("YOU WIN GAME")
-				connectionSocket.close()
+				else:
+					print("all letters found")
+					print("YOU WIN GAME")
+					wonGame = True
+					break
 
-		elif numberOfGuesses <= 0:
+		elif numberOfGuesses == 0:
 			print("YOU LOSE GAME")
 			connectionSocket.close()
+			break
 
+		elif wonGame:
+			connectionSocket.close()
+			break
 
-	except IOError:
+	except KeyboardInterrupt:
 		# Close client socket
 		connectionSocket.close()
+
+connectionSocket.close()
