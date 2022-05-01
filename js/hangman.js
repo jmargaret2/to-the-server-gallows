@@ -1,6 +1,7 @@
 let numberOfGuesses = 6; // number of incorrect guesses left
 let possibleWords;
 possibleWords = ["cat, dog, fish"];
+let socket;
 let guessInProgress = "";
 let missedLetters = [];
 let correctLetters = [];
@@ -11,17 +12,17 @@ let imageSources = ["pics/hangmandesigns.jpg", "pics/hangman0Lives.jpg", "pics/h
 "pics/hangman6Lives.jpg"]
 let picture = document.getElementById("pics");
 
-document.getElementById("buttons").addEventListener("click",
-    findLetterInWord && updateLettersLeft);
-
 document.getElementById("startGame").addEventListener("click", startGame);
+document.getElementById("buttons").addEventListener("click", getLetter);
 
 function startGame(){
     document.getElementById("startGame").innerHTML = "Game Started";
 
+    // create websocket to connect with Python
+    socket = new WebSocket('ws://localhost:13456');
+
     // Choose random word from list of possibilities
     currentWord = possibleWords[Math.floor(Math.random() * possibleWords.length)];
-    currentWord = "andrews hall";
 
     for (i = 0; i < currentWord.length; i++){
         if(currentWord[i] === " "){
@@ -63,22 +64,11 @@ function changeImage(){
     }
 }
 
-function findLetterInWord(){
-    guessInProgress = document.getElementById("guessedLetter").innerHTML;
-    let letterIndex = currentWord.search(guessInProgress);
-
-    // If index = -1, no match for letter is found
-    // Otherwise, letter is in word
-    if(letterIndex !== -1){
-        correctLetters.push(guessInProgress);
-        document.getElementById("correctLetter").innerHTML = correctLetters;
-    }
-    else{
-        numberOfGuesses -= 1;
-        missedLetters.push(guessInProgress);
-        document.getElementById("incorrectLetter").innerHTML = missedLetters;
-        changeImage();
-    }
+// Get the letter the user chose from the letter buttons, and send to Python server
+function getLetter(){
+    guessInProgress = document.getElementById("buttonName").innerHTML;
+    let lastChar = guessInProgress.substring(guessInProgress.length - 1);
+    socket.send(lastChar);
 }
 
 function updateLettersLeft(){
