@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<style>
+    .button {
+        border-radius: 5px;
+        background: #000;
+        color: #fff;
+        border: solid 1px #fff;
+        text-decoration: none;
+        cursor: pointer;
+        font-size: 1.5em;
+        padding: 18px 10px;
+        width: 180px;
+        margin: 10px;
+        outline: none;
+    }
+</style>
+<head>
+    <link rel="stylesheet" href="interface.css">
+</head>
+<body>
+<div class="interface">
+    <h1>Hangman</h1>
+</div>
+<script type="text/javascript" src="hangman.js"></script>
+<div class="wrap">
+    <div id="buttons"> <!--each letter in the alphabet gets a button-->
+        <input type="button" class="button" value="A" onclick="holdLetter('a')">
+        <input type="button" class="button" value="B" onclick="holdLetter('b')">
+        <input type="button" class="button" value="C" onclick="holdLetter('c')">
+        <input type="button" class="button" value="D" onclick="holdLetter('d')">
+        <input type="button" class="button" value="E" onclick="holdLetter('e')">
+        <input type="button" class="button" value="F" onclick="holdLetter('f')">
+        <input type="button" class="button" value="G" onclick="holdLetter('g')">
+        <input type="button" class="button" value="H" onclick="holdLetter('h')">
+        <input type="button" class="button" value="I" onclick="holdLetter('i')">
+        <input type="button" class="button" value="J" onclick="holdLetter('j')">
+        <input type="button" class="button" value="K" onclick="holdLetter('k')">
+        <input type="button" class="button" value="L" onclick="holdLetter('l')">
+        <input type="button" class="button" value="M" onclick="holdLetter('m')">
+        <input type="button" class="button" value="N" onclick="holdLetter('n')">
+        <input type="button" class="button" value="O" onclick="holdLetter('o')">
+        <input type="button" class="button" value="P" onclick="holdLetter('p')">
+        <input type="button" class="button" value="Q" onclick="holdLetter('q')">
+        <input type="button" class="button" value="R" onclick="holdLetter('r')">
+        <input type="button" class="button" value="S" onclick="holdLetter('s')">
+        <input type="button" class="button" value="T" onclick="holdLetter('t')">
+        <input type="button" class="button" value="U" onclick="holdLetter('u')">
+        <input type="button" class="button" value="V" onclick="holdLetter('v')">
+        <input type="button" class="button" value="W" onclick="holdLetter('w')">
+        <input type="button" class="button" value="X" onclick="holdLetter('x')">
+        <input type="button" class="button" value="Y" onclick="holdLetter('y')">
+        <input type="button" class="button" value="Z" onclick="holdLetter('z')">
+
+    </div>
+    <div id="HangManPic"></div>  <!--Picture that changes according to numberOfGuesses-->
+    <div id="correctGuessLetter"> <!--letters that are correct are displaced-->
+    </div>
+    <div id="incorrectGuessLetter"> <!--letters that are correct are displaced-->
+    </div>
+    <div id="Lives"> <!--letters that are correct are displaced-->
+    </div>
+    <!-- <div class="container">
+      <button id="reset">Play again</button>
+    </div> -->
+</div>
+
+</body>
+</html>
