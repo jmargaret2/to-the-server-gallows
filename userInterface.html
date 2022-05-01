@@ -16,13 +16,11 @@
         </div>
         <button id="startGame" onclick="startGame()">Start Game</button>
         <div id="lettersLeft"></div> <!-- How many spaces are left in the word -->
+        <div id="incorrectLetterTitle">Incorrect Letters used: </div> <!--Div for informing user that this is for incorrect letters already used-->
         <div id="buttonName"></div>  <!--The name of each button-->
         <div id="numGuesses"></div> <!--A message for the user, telling them the number of guesses that remain-->
-        <div id="buttons" onclick="findLetterInWord() && updateLettersLeft()"> <!--each letter in the alphabet gets a button-->
-        </div>
-        <div id="correctLetter"> <!--letters that are correct are displaced-->
-        </div>
-        <div id="incorrectLetter"> </div> <!-- letters that are not correct are displayed -->
+        <div id="buttons" onclick="getLetter()"></div> <!--each letter in the alphabet gets a button-->
+        <div id="correctLetter"></div> <!--letters that are correct are displaced-->
         <!-- <div class="container">
           <button id="reset">Play again</button>
         </div> -->
