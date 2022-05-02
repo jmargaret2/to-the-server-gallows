@@ -1,67 +1,58 @@
-from socket import *
-import random
+import asyncio
+import websockets
 
-serverName = 'localhost'
-serverSocket = socket(AF_INET, SOCK_STREAM)
-serverPort = 13456
-serverSocket.bind((serverName, serverPort))
-serverSocket.listen(1)
-print('The server is ready to receive')
-
-numberOfGuesses = 6
-possibleWords = ["cat", "dog", "fish"]
-currentWord = random.choice(possibleWords)
-print(currentWord)
-guessInProgress = ""
+guessInProgress = ''
+currentWord = ''
 missedLetters = []
 correctLetters = []
 wonGame = False
-numberOfRightWords = 0
+messageIterations = 0
 
-# Establish the connection
-print('Ready to serve...')
-connectionSocket, addr = serverSocket.accept()
 
-while True:
-	try:
-		if numberOfGuesses > 0 and wonGame is False:
-			letterGuess = connectionSocket.recv(1024).decode("utf-8")
-			print("The guessed letter is " + str(letterGuess))
+async def echo(websocket):
+	global currentWord
+	global messageIterations
+	async for message in websocket:
+		if messageIterations == 0:
+			currentWord = str(message)
+			print("The word chosen was: " + currentWord)
+			messageIterations = messageIterations + 1
 
-			letterIndex = currentWord.find(str(letterGuess))
+		# this message is each letter guess
+		else:
+			number_of_guesses = 6
+			letter_guess = str(message)
+			letter_guess = letter_guess.lower()
+			print("The guessed letter is " + letter_guess)
+			letterIndex = currentWord.find(letter_guess)
 
 			if letterIndex != -1:
 				print("LETTER IS IN WORD")
-				correctLetters.append(letterGuess)
-				numberOfRightWords += 1
+				correctLetters.append(letter_guess)
+				await websocket.send("word")
 			if letterIndex == -1:
-				print("LETTER IS NOT IN WORD")
-				missedLetters.append(letterGuess)
-				numberOfGuesses = numberOfGuesses - 1
-				connectionSocket.send(bytes(str(numberOfGuesses), "utf-8"))
+				print("LETTER NOT IN WORD")
+				missedLetters.append(letter_guess)
+				number_of_guesses = number_of_guesses - 1
+				await websocket.send("no word")
 
-			print("The correct letters thus far are ", correctLetters)
+			if number_of_guesses == 0:
+				await websocket.send("no guesses")
+
 			for letter in range(len(currentWord)):
 				if currentWord[letter] not in correctLetters:
-					print("missing letters from word")
+					wonGame = False
 					break
 				else:
-					print("all letters found")
-					print("YOU WIN GAME")
 					wonGame = True
-					break
 
-		elif numberOfGuesses == 0:
-			print("YOU LOSE GAME")
-			connectionSocket.close()
-			break
+			print("The correct letters so far are: ", correctLetters)
+			messageIterations = messageIterations + 1
 
-		elif wonGame:
-			connectionSocket.close()
-			break
 
-	except KeyboardInterrupt:
-		# Close client socket
-		connectionSocket.close()
+async def main():
+	async with websockets.serve(echo, "localhost", 13456):
+		await asyncio.Future()  # run forever
 
-connectionSocket.close()
+
+asyncio.run(main())
