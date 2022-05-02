@@ -29,15 +29,15 @@ async def echo(websocket):
 			if letterIndex != -1:
 				print("LETTER IS IN WORD")
 				correctLetters.append(letter_guess)
-				await websocket.send("word")
+				await websocket.send(letter_guess)
 			if letterIndex == -1:
 				print("LETTER NOT IN WORD")
 				missedLetters.append(letter_guess)
 				number_of_guesses = number_of_guesses - 1
-				await websocket.send("no word")
+				await websocket.send("letter not in word")
 
 			if number_of_guesses == 0:
-				await websocket.send("no guesses")
+				await websocket.send(str(0))
 
 			for letter in range(len(currentWord)):
 				if currentWord[letter] not in correctLetters:
@@ -51,7 +51,7 @@ async def echo(websocket):
 
 
 async def main():
-	async with websockets.serve(echo, "localhost", 13456):
+	async with websockets.serve(echo, "localhost", 8080):
 		await asyncio.Future()  # run forever
 
 
