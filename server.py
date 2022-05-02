@@ -7,11 +7,14 @@ missedLetters = []
 correctLetters = []
 wonGame = False
 messageIterations = 0
+foundAllLetters = False
 
 
 async def echo(websocket):
 	global currentWord
 	global messageIterations
+	global wonGame
+	global foundAllLetters
 	async for message in websocket:
 		if messageIterations == 0:
 			currentWord = str(message)
@@ -25,26 +28,32 @@ async def echo(websocket):
 			letter_guess = letter_guess.lower()
 			print("The guessed letter is " + letter_guess)
 			letterIndex = currentWord.find(letter_guess)
+			print("letterIndex is: " + str(letterIndex))
 
 			if letterIndex != -1:
 				print("LETTER IS IN WORD")
 				correctLetters.append(letter_guess)
-				await websocket.send(letter_guess)
+				await websocket.send(str(letterIndex))
 			if letterIndex == -1:
 				print("LETTER NOT IN WORD")
 				missedLetters.append(letter_guess)
 				number_of_guesses = number_of_guesses - 1
-				await websocket.send("letter not in word")
+				await websocket.send(str(letterIndex))
 
 			if number_of_guesses == 0:
-				await websocket.send(str(0))
+				await websocket.send("no more guesses")
 
 			for letter in range(len(currentWord)):
+				# not all letters found
 				if currentWord[letter] not in correctLetters:
-					wonGame = False
+					foundAllLetters = False
 					break
 				else:
-					wonGame = True
+					foundAllLetters = True
+
+			if foundAllLetters:
+				wonGame = True
+				await websocket.send("win")
 
 			print("The correct letters so far are: ", correctLetters)
 			messageIterations = messageIterations + 1
