@@ -108,10 +108,10 @@ button {
   border: solid 1px #fff;
   text-decoration: none;
   cursor: pointer;
-  font-size: 1.5em;
+  font-size: 1em;
   padding: 18px 10px;
-  width: 180px;
-  margin: 10px;
+  width: 70px;
+  margin: 7px;
   outline: none;
 }
 button:hover {
