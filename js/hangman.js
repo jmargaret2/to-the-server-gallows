@@ -5,8 +5,10 @@ var guessIndex = 0;
 var letterStatus = 0;
 var allLetters = [];
 var guessedLetters = [];
-var possibleWords = ["cat", "dog", "fish", "lion", "camel", "dolphin",
-                    "whale", "wolf", "bird", "leopard", "rhino"];
+var possibleWords = ["cat", "dog", "fish", "lion", "camel", "dolphin", "frog", "lizard", "monkey", "bison", "flamingo",
+                    "whale", "wolf", "bird", "leopard", "rhino", "bear", "eagle", "owl", "crane", "sea lion", "lynx",
+                    "lemur", "raven", "cow", "mole rat", "newt", "stingray", "gecko", "zebra", "donkey", "kiwi",
+                    "horse", "sloth"];
 var currentWord;
 
 // choose a word at random
@@ -56,7 +58,12 @@ function startGame(){
 
     // print dashes to represent each word
     for (let i = 0; i < currentWord.length; i++){
-        allLetters[i] = "_";
+        if(currentWord[i] === " "){
+            allLetters[i] = " ";
+        }
+        else{
+            allLetters[i] = "_";
+        }
     }
     document.getElementById("lettersLeft").innerHTML = allLetters.join(" ");
 }
@@ -126,11 +133,11 @@ function playAgain(){
         socket.send(currentWord);
     };
     currentWord = possibleWords[Math.floor(Math.random() * possibleWords.length)];
-    allLetters = [];
-    startGame();
     document.getElementById("pics").src = "pics/hangmandesigns.jpg";
     document.getElementById("numGuesses").innerHTML = "YOU HAVE SIX INCORRECT GUESSES LEFT";
     document.getElementById("buttonName").innerHTML = "";
+    allLetters = [];
+    startGame();
 }
 
 
@@ -156,7 +163,7 @@ function popUpWin(){
     modal.style.display = "block";
 
     window.onclick = function(event) {
-        if (event.target == modal) {
+        if (event.target === modal) {
             modal.style.display = "none";
         }
     }
