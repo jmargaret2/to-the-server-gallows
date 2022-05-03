@@ -45,6 +45,7 @@ socket.onmessage = function(event) {
     if(event.data === "win"){
         socket.close(1000, "You won the game.");
         document.getElementById("numGuesses").innerHTML = "YOU WON THE GAME.";
+        popUpWin();
     }
     console.log("letter status: " + letterStatus);
 };
@@ -90,6 +91,7 @@ function changeImage(){
         case 0:
             document.getElementById("pics").src = "pics/hangman0Lives.jpg";
             guessMessage.innerHTML = "YOU HAVE NO GUESSES LEFT. YOU HAVE LOST THE GAME.";
+            popUpLose();
             socket.close(1000, "YOU LOST THE GAME");
             break;
         case 1:
@@ -129,4 +131,33 @@ function playAgain(){
     document.getElementById("pics").src = "pics/hangmandesigns.jpg";
     document.getElementById("numGuesses").innerHTML = "YOU HAVE SIX INCORRECT GUESSES LEFT";
     document.getElementById("buttonName").innerHTML = "";
+}
+
+
+function popUpLose(){
+    var modal = document.getElementById("lose");
+
+    var span = document.getElementsByClassName("close")[0];
+
+    modal.style.display = "block";
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+}
+
+function popUpWin(){
+    var modal = document.getElementById("win");
+
+    var span = document.getElementsByClassName("close")[0];
+
+    modal.style.display = "block";
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
 }
