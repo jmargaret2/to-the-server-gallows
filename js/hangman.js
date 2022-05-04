@@ -1,13 +1,14 @@
 var numberOfGuesses = 6; // number of incorrect guesses left
 var socket;
+var playAgainStatus = false;
 var guessInProgress = "";
 var guessIndex = 0;
 var letterStatus = 0;
 var allLetters = [];
 var guessedLetters = [];
 var possibleWords = ["cat", "dog", "fish", "lion", "camel", "dolphin", "frog", "lizard", "monkey", "bison", "flamingo",
-                    "whale", "wolf", "bird", "leopard", "rhino", "bear", "eagle", "owl", "crane", "sea lion", "lynx",
-                    "lemur", "raven", "cow", "mole rat", "newt", "stingray", "gecko", "zebra", "donkey", "kiwi",
+                    "whale", "wolf", "bird", "leopard", "rhino", "bear", "eagle", "owl", "crane", "lynx",
+                    "lemur", "raven", "cow", "newt", "stingray", "gecko", "zebra", "donkey", "kiwi",
                     "horse", "sloth"];
 var currentWord;
 
@@ -52,18 +53,19 @@ socket.onmessage = function(event) {
     console.log("letter status: " + letterStatus);
 };
 
+// Helper function to determine if the socket is closed or open at any point in time
+function socketIsOpen(socket){
+    return socket.readyState === socket.OPEN;
+}
+
 function startGame(){
+    playAgainStatus = false;
     document.getElementById("startGame").innerHTML = "Game Started";
     console.log("Game started");
 
     // print dashes to represent each word
     for (let i = 0; i < currentWord.length; i++){
-        if(currentWord[i] === " "){
-            allLetters[i] = " ";
-        }
-        else{
-            allLetters[i] = "_";
-        }
+        allLetters[i] = "_";
     }
     document.getElementById("lettersLeft").innerHTML = allLetters.join(" ");
 }
@@ -74,6 +76,7 @@ function getLetter(){
     guessedLetters.push(guessInProgress.substring(guessInProgress.length - 1));
     console.log("guessed letters are: " + guessedLetters);
     let lastChar = guessInProgress.substring(guessInProgress.length - 1);
+    console.log("lastChar " + lastChar);
     socket.send(lastChar);
 }
 
@@ -98,8 +101,11 @@ function changeImage(){
         case 0:
             document.getElementById("pics").src = "pics/hangman0Lives.jpg";
             guessMessage.innerHTML = "YOU HAVE NO GUESSES LEFT. YOU HAVE LOST THE GAME.";
+            document.getElementById("wordResult").innerHTML = "The word was " + currentWord;
             popUpLose();
-            socket.close(1000, "YOU LOST THE GAME");
+            if(playAgainStatus === false){
+                socket.close(1000, "No play again");
+            }
             break;
         case 1:
             document.getElementById("pics").src = "pics/hangman1Lives.jpg";
@@ -126,17 +132,43 @@ function changeImage(){
     }
 }
 
+// Reset all variables with values from last game
 function playAgain(){
-    // create websocket to connect with Python
-    socket = new WebSocket('ws://localhost:8080');
-    socket.onopen = function() {
-        socket.send(currentWord);
-    };
+    // choose a word at random
     currentWord = possibleWords[Math.floor(Math.random() * possibleWords.length)];
+    console.log(currentWord);
+
+    // if socket somehow entered closed state, log it, reopen, and send
+    if (!socketIsOpen(socket)){
+        socket.close(1000, "socket is closing now");
+        console.log("socket is now closed when trying to playAgain()");
+        socket = null;
+        console.log("socket is reconnected");
+        socket = new WebSocket('ws://localhost:8080');
+        console.log("socket is reconnected");
+        socket.onopen = function() {
+            socket.send("rp");
+            socket.send(currentWord);
+        };
+    }
+
+    else{
+        // Send Python server the new currentWord
+        socket.send(currentWord);
+    }
+
+    console.log("playAgain() currentWord: " + currentWord);
     document.getElementById("pics").src = "pics/hangmandesigns.jpg";
     document.getElementById("numGuesses").innerHTML = "YOU HAVE SIX INCORRECT GUESSES LEFT";
     document.getElementById("buttonName").innerHTML = "";
-    allLetters = [];
+    allLetters.length = 0;
+    console.log("playAgain() allLetters: " + allLetters);
+    guessedLetters.length = 0;
+    guessIndex = "";
+    guessInProgress = "";
+    numberOfGuesses = 6;
+    document.getElementById("wordResult").innerHTML = "";
+    playAgainStatus = true;
     startGame();
 }
 

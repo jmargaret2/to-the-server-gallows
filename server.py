@@ -6,21 +6,30 @@ currentWord = ''
 missedLetters = []
 correctLetters = []
 wonGame = False
-messageIterations = 0
 foundAllLetters = False
+number_of_guesses = 6
 
 
 async def echo(websocket):
 	global currentWord
-	global messageIterations
 	global wonGame
 	global foundAllLetters
+	global correctLetters
+	global missedLetters
+	global number_of_guesses
 	async for message in websocket:
-		if messageIterations == 0:
+		if len(str(message)) > 2:
 			currentWord = str(message)
 			print("The word chosen was: " + currentWord)
-			messageIterations = messageIterations + 1
-
+		# from playAgain() function stating to restart game
+		elif len(str(message)) == 2:
+			number_of_guesses = 6
+			correctLetters.clear()
+			missedLetters.clear()
+			wonGame = False
+			currentWord = ''
+			foundAllLetters = False
+			print("successfully restarted game")
 		# this message is each letter guess
 		else:
 			number_of_guesses = 6
@@ -56,7 +65,6 @@ async def echo(websocket):
 				await websocket.send("win")
 
 			print("The correct letters so far are: ", correctLetters)
-			messageIterations = messageIterations + 1
 
 
 async def main():
