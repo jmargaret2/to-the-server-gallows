@@ -6,7 +6,7 @@ body {
   color: #fff;
   height: 100%;
   text-align: center;
-  font-size: 18px;
+  font-size: 20px;
 }
 
 .wrappper {
@@ -30,47 +30,32 @@ h1{
   font-family: "Chackduster", fantasy;
   font-weight: 100;
   text-transform: uppercase;
-  margin: 5px 0;
-}
-
-h1 {
-  font-size: 2.6em;
 }
 
 p {
-  font-size: 1.6em;
-}
-
-.active {
-  opacity: 0.5;
-}
-.active:hover {
-  opacity: 0.5;
+  font-size: 1.3em;
 }
 
 
 /*button for alphabet*/
 button {
-  border-radius: 5px;
+  border-radius: 4px;
   background: #000;
   color: #fff;
-  border: solid 1px #fff;
-  text-decoration: none;
+  border: solid 2px #fff;
   cursor: pointer;
   font-size: 1em;
-  padding: 18px 10px;
   width: 70px;
-  margin: 7px;
-  outline: none;
+  height: 50px;
 }
 button:hover {
-  transition: all 0.3s ease-in-out;
+  transition: all 0.4s ease-in-out;
   background: #fff;
   border: solid 1px #fff;
   color: #000;
 }
 
-/*Button for 'start' and 'play again'*/
+/*Button for 'start'*/
 .BigButton {
   border-radius: 5px;
   background: #000;
@@ -79,23 +64,21 @@ button:hover {
   text-decoration: none;
   cursor: pointer;
   font-size: 1em;
-  padding: 18px 10px;
   width: 150px;
   margin: 12px;
 }
 
 /*modal*/
 .modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  padding-top: 250px; /* Location of the box */
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 250px;
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: dimgrey; /* Fallback color */
+  width: 100%;
+  height: 100%;
+  background-color: dimgrey;
   opacity:0.9;
 }
 
@@ -105,5 +88,7 @@ button:hover {
   margin: auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 80%;
+  width: 40%;
 }
+
+

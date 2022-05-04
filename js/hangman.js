@@ -124,7 +124,7 @@ function changeImage(){
             guessMessage.innerHTML = "YOU HAVE FOUR INCORRECT GUESSES LEFT.";
             break;
         case 5:
-            document.getElementById("pics").src = "pics/hangman6Lives.jpg";
+            document.getElementById("pics").src = "pics/hangman5Lives.jpg";
             guessMessage.innerHTML = "YOU HAVE FIVE INCORRECT GUESSES LEFT.";
             break;
         default:
