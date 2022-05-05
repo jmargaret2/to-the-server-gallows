@@ -22,37 +22,6 @@ socket.onopen = function() {
     socket.send(currentWord);
 };
 
-socket.onmessage = function(event) {
-    console.log("letterIndex from server.py: " + event.data);
-    // the guessed letter is not in word
-    if (event.data === "-1"){
-        numberOfGuesses -= 1;
-        // Get the index number of the letter in the word, if -1 then the letter exists
-        letterStatus = -1;
-        changeImage();
-    }
-    // the guessed letter is in the word
-    else{
-        guessIndex = event.data;
-        console.log("guessIndex: " + guessIndex);
-        // Get the index number of the letter in the word, if -1 then the letter doesn't exist
-        letterStatus = 0;
-        console.log("letter is in word, and letter status is: " + letterStatus);
-        updateLettersLeft();
-    }
-    // there are no more guesses
-    if(event.data === "no more guesses"){
-        numberOfGuesses = 0;
-    }
-    // server says game is won
-    if(event.data === "win"){
-        socket.close(1000, "You won the game.");
-        document.getElementById("numGuesses").innerHTML = "YOU WON THE GAME.";
-        popUpWin();
-    }
-    console.log("letter status: " + letterStatus);
-};
-
 // Helper function to determine if the socket is closed or open at any point in time
 function socketIsOpen(socket){
     return socket.readyState === socket.OPEN;
@@ -171,6 +140,37 @@ function playAgain(){
     playAgainStatus = true;
     startGame();
 }
+
+socket.onmessage = function(event) {
+    console.log("letterIndex from server.py: " + event.data);
+    // the guessed letter is not in word
+    if (event.data === "-1"){
+        numberOfGuesses -= 1;
+        // Get the index number of the letter in the word, if -1 then the letter exists
+        letterStatus = -1;
+        changeImage();
+    }
+    // the guessed letter is in the word
+    else{
+        guessIndex = event.data;
+        console.log("guessIndex: " + guessIndex);
+        // Get the index number of the letter in the word, if -1 then the letter doesn't exist
+        letterStatus = 0;
+        console.log("letter is in word, and letter status is: " + letterStatus);
+        updateLettersLeft();
+    }
+    // there are no more guesses
+    if(event.data === "no more guesses"){
+        numberOfGuesses = 0;
+    }
+    // server says game is won
+    if(event.data === "win"){
+        socket.close(1000, "You won the game.");
+        document.getElementById("numGuesses").innerHTML = "YOU WON THE GAME.";
+        popUpWin();
+    }
+    console.log("letter status: " + letterStatus);
+};
 
 
 function popUpLose(){

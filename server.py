@@ -31,7 +31,7 @@ async def echo(websocket):
 			foundAllLetters = False
 			print("successfully restarted game")
 		# this message is each letter guess
-		else:
+		elif len(str(message)) == 1:
 			number_of_guesses = 6
 			letter_guess = str(message)
 			letter_guess = letter_guess.lower()
