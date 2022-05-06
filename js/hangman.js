@@ -1,3 +1,5 @@
+// Hangman Game through Web sockets - game by Emily, Margaret, and Joe
+
 var numberOfGuesses = 6; // number of incorrect guesses left
 var socket;
 var playAgainStatus = false;
@@ -102,32 +104,30 @@ function changeImage(){
 }
 
 // Reset all variables with values from last game
-function playAgain(){
+function playAgain() {
     // choose a word at random
     currentWord = possibleWords[Math.floor(Math.random() * possibleWords.length)];
     console.log(currentWord);
 
     // if socket somehow entered closed state, log it, reopen, and send
-    if (!socketIsOpen(socket)){
+    if (!socketIsOpen(socket)) {
         socket.close(1000, "socket is closing now");
         console.log("socket is now closed when trying to playAgain()");
         socket = null;
         console.log("socket is reconnected");
         socket = new WebSocket('ws://localhost:8080');
         console.log("socket is reconnected");
-        socket.onopen = function() {
+        socket.onopen = function () {
             socket.send("rp");
             socket.send(currentWord);
         };
-    }
-
-    else{
+    } else {
         // Send Python server the new currentWord
         socket.send(currentWord);
     }
 
     console.log("playAgain() currentWord: " + currentWord);
-    document.getElementById("pics").src = "pics/hangmandesigns.jpg";
+    document.getElementById("pics").src = "pics/hangman6Lives.jpg";
     document.getElementById("numGuesses").innerHTML = "YOU HAVE SIX INCORRECT GUESSES LEFT";
     document.getElementById("buttonName").innerHTML = "";
     allLetters.length = 0;
@@ -138,6 +138,8 @@ function playAgain(){
     numberOfGuesses = 6;
     document.getElementById("wordResult").innerHTML = "";
     playAgainStatus = true;
+    letterStatus = 0;
+
     startGame();
 }
 
