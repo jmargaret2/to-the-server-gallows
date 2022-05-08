@@ -1,5 +1,6 @@
 // Hangman Game through Web sockets - game by Emily, Margaret, and Joe
 
+// initialize all variables needed for JS and HTML files to display the correct information from Python server
 var numberOfGuesses = 6; // number of incorrect guesses left
 var socket;
 var playAgainStatus = false;
@@ -29,6 +30,7 @@ function socketIsOpen(socket){
     return socket.readyState === socket.OPEN;
 }
 
+// Function displays game beginning, with blank dashes for each letter in the word
 function startGame(){
     playAgainStatus = false;
     document.getElementById("startGame").innerHTML = "Game Started";
@@ -51,6 +53,7 @@ function getLetter(){
     socket.send(lastChar);
 }
 
+// Update the blank dashes within the GUI
 function updateLettersLeft(){
     console.log("made it to updateLettersLeft()");
     // letterStatus = -1 --> letter is not in word
@@ -63,7 +66,7 @@ function updateLettersLeft(){
     document.getElementById("lettersLeft").innerHTML = allLetters;
 }
 
-// After each incorrect guess, the image in the game will change
+// After each incorrect guess, the image in the game will change, depending on guesses remaining
 function changeImage(){
     let guessMessage = document.getElementById("numGuesses");
     console.log("picture src: " + document.getElementById("pics").toString());
@@ -103,7 +106,7 @@ function changeImage(){
     }
 }
 
-// Reset all variables with values from last game
+// Reset all variables with values from last game, allowing user to play game again without needing to restart server
 function playAgain() {
     // choose a word at random
     currentWord = possibleWords[Math.floor(Math.random() * possibleWords.length)];
@@ -143,16 +146,18 @@ function playAgain() {
     startGame();
 }
 
+// Function which receives all messages from Python server
 socket.onmessage = function(event) {
     console.log("letterIndex from server.py: " + event.data);
-    // the guessed letter is not in word
+    // the guessed letter is not in word, then goes to update dashes of game, and Hangman image of game
     if (event.data === "-1"){
         numberOfGuesses -= 1;
         // Get the index number of the letter in the word, if -1 then the letter exists
         letterStatus = -1;
+        updateLettersLeft();
         changeImage();
     }
-    // the guessed letter is in the word
+    // the guessed letter is in the word, update dashes of game
     else{
         guessIndex = event.data;
         console.log("guessIndex: " + guessIndex);
@@ -165,7 +170,7 @@ socket.onmessage = function(event) {
     if(event.data === "no more guesses"){
         numberOfGuesses = 0;
     }
-    // server says game is won
+    // server says game is won, and a pop up appears
     if(event.data === "win"){
         socket.close(1000, "You won the game.");
         document.getElementById("numGuesses").innerHTML = "YOU WON THE GAME.";
@@ -174,7 +179,7 @@ socket.onmessage = function(event) {
     console.log("letter status: " + letterStatus);
 };
 
-
+//pop up that appears when the player loss disappears when user clicks outside the popup
 function popUpLose(){
     var modal = document.getElementById("lose");
 
@@ -189,6 +194,7 @@ function popUpLose(){
     }
 }
 
+//pop up that appears when the player win disappears when user clicks outside the popup
 function popUpWin(){
     var modal = document.getElementById("win");
 
