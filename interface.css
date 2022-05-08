@@ -1,5 +1,5 @@
-/* Variabes */
-/* Mixin's */
+/* CSS by Emily, Margaret, and Joe*/
+/*fonts and functions used for the html to design the website appearance*/
 body {
   background: #000;
   font-family: "Chackduster", fantasy;
@@ -25,7 +25,7 @@ canvas {
   border: #fff dashed 3px;
   padding: 15px;
 }
-
+/*header*/
 h1{
   font-family: "Chackduster", fantasy;
   font-weight: 100;
@@ -36,8 +36,7 @@ p {
   font-size: 1.3em;
 }
 
-
-/*button for alphabet*/
+/*button for letter*/
 button {
   border-radius: 4px;
   background: #000;
@@ -48,6 +47,7 @@ button {
   width: 70px;
   height: 50px;
 }
+/*when the mouses is over the button the button goes white*/
 button:hover {
   transition: all 0.4s ease-in-out;
   background: #fff;
@@ -68,7 +68,7 @@ button:hover {
   margin: 12px;
 }
 
-/*modal*/
+/*modal popup*/
 .modal {
   display: none;
   position: fixed;
@@ -82,7 +82,7 @@ button:hover {
   opacity:0.9;
 }
 
-/* Modal Content */
+/* Modal Content popup*/
 .modal-content {
   background-color: black;
   margin: auto;

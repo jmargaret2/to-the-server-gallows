@@ -1,15 +1,16 @@
+<!--html by Emily, Margaret, and Joe-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="stylesheet" href="interface.css">
-    <title>Hangman</title>
+<link rel="stylesheet" href="interface.css"> <!--css that styles the javascript and website-->
+    <title>Hangman</title><!--title-->
 </head>
   <body>
-  <script type="text/javascript" src="js/load.js"></script>
+  <script type="text/javascript" src="js/load.js"></script> <!--button-->
     <div class="interface" onload="windowLoad()">
        <h1>Hangman</h1>
     </div>
-     <script type="text/javascript" src="js/hangman.js"></script>
+     <script type="text/javascript" src="js/hangman.js"></script><!--working game-->
     <div class="wrap">
         <div id="HangManPic"> <!--Picture that changes according to numberOfGuesses-->
             <img id="pics" src="pics/hangman6Lives.jpg" alt="The beginning of Hangman" style="width: 50%">
@@ -27,12 +28,12 @@
           <button id="reset" onclick="playAgain()" class="BigButton">Play again</button>
         </div>
     </div>
-  <div id="lose" class="modal">
+  <div id="lose" class="modal"> <!--loss popup-->
       <div class="modal-content">
           <p>YOU LOST <br> Try Again!</p>
       </div>
   </div>
-  <div id="win" class="modal">
+  <div id="win" class="modal"><!--win popup-->
       <div class="modal-content">
           <p>YOU WON!!!</p>
       </div>
